@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<meta name="format-detection" content="telephone=no,email=no" />
+	<title>最美笑脸送老师---中国文明网</title>
+	<script>
+		document.addEventListener("touchmove",function(e){e.preventDefault();});
+		document.querySelector('html').style.fontSize=document.documentElement.clientWidth /10 + 'px';
+	</script>
+	<style>
+		
+	</style>
+</head>
+<body>
+		<div id="fly-main-ui">
+		</div>
+
+		<script src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script> 
+
+		<script type="text/javascript">
+
+			var share = {
+				title:'{nickname}送给老师一份”礼物“，快来看看吧',
+				desc:'晒出你的盛世美颜，送上最诚挚的祝福！'
+			}
+			href = 'http://h5.zmiti.com/public/teacherday';
+			
+
+			
+			window.PointerEvent = undefined;
+			function onError(){
+				var script  = document.createElement('script');
+				script.src = './assets/js/index.js?aa='+new Date().getTime();
+				document.body.appendChild(script);
+			}
+
+		</script>
+
+		<!--
+			
+			<script src='./assets/js/vendor.js'></script>
+			<script src='./assets/js/index.js'></script>
+		-->
+		
+		<script src='http://localhost:4005/index.js' onError='onError()'></script>
+
+		
+	
+</body>
+</html>

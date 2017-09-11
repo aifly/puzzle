@@ -1,0 +1,95 @@
+﻿@import "../../../assets/css/base.scss";
+
+.zmiti-choose-main-ui {
+  @include pos(a);
+  @include transition(.3s);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  &.active {
+    @include transform(translate(0, 0) scale(1));
+    z-index: 100;
+  }
+  &.left {
+    @include transform(translate(-100%, 0) scale(0.8));
+  }
+  &.right {
+    @include transform(translate(100%, 0) scale(.8));
+  }
+  @include displayBox(vertical);
+
+  .zmiti-choose-main-content {
+    width: 9rem;
+
+    .zmiti-upload {
+      width: 7rem;
+      height: 7rem;
+      overflow: hidden;
+      text-align: center;
+      margin: 0 auto;
+      @include pos(r);
+
+      &>div {
+        @include pos(a);
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 10000;
+      }
+      canvas {
+        @include pos(a);
+        z-index: 10;
+        left: 0;
+        top: 0;
+      }
+      .zmiti-border-img {
+        @include pos(a);
+        left: 0;
+        top: 0;
+        z-index: 100;
+      }
+      input {
+        @include pos(a);
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        z-index: 101;
+      }
+      .zmiti-upload-loading {
+        @include pos(a);
+        z-index: 10;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        //color: #ff4456;
+        font-size: .5rem;
+        @include transform(translate(-50%, -50%));
+      }
+    }
+    .zmiti-beign-upload {
+      background: #fff;
+      width: 2.4rem;
+      text-align: center;
+      height: 1rem;
+      line-height: 1rem;
+      @include br(.2rem);
+      margin: .5rem auto;
+      opacity: 0;
+    }
+    .zmiti-btn-groups {
+      @include displayBox(horizontal);
+      width: 8rem;
+      margin: 0 auto;
+
+      &>aside {
+        -webkit-box-flex: 1;
+        margin: 0 10px;
+      }
+    }
+  }
+}
