@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 	<meta name="format-detection" content="telephone=no,email=no" />
-	<title>最美笑脸送老师---中国文明网</title>
+	<title>拼图---中国文明网</title>
 	<script>
-		document.addEventListener("touchmove",function(e){e.preventDefault();});
+		document.addEventListener("touchmove",function(e){e.preventDefault();},{ passive: false });
 		document.querySelector('html').style.fontSize=document.documentElement.clientWidth /10 + 'px';
 	</script>
 	<style>
@@ -44,6 +44,7 @@
 			<script src='./assets/js/index.js'></script>
 		-->
 		
+		<script src='./assets/js/createjs.js' onError='onError()'></script>
 		<script src='http://localhost:4005/index.js' onError='onError()'></script>
 
 		
