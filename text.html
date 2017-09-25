@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<title>
+		
+	</title>
+
+	<script>
+		document.addEventListener('touchmove',function(e){e.preventDefault()},{passive:false})
+	</script>
+	<style>
+		* { touch-action: none; } 
+	</style>
+</head>
+<body>
+	<p>
+		这种情况不一定有问题的，可能就是局部的软组织损伤引起来的，可以应用云南白药气雾剂治疗，注意休息，尽量不要过多的活动，应该是可以缓解症状的。如果三天后还是说疼的不能动，就需要到医院检查一下看看了。
+	</p>
+	<div id="box"></div>
+	<script src='https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js'></script>
+	<script>
+		window.onload = function(){
+			var p = document.getElementsByTagName('p')[0];
+			var html = p.innerHTML.trim();
+			var content = '';
+			html.split('').forEach(function(word,i){
+				content +='<span>'+word+'</span>'
+			});
+
+			p.innerHTML = content;
+
+			$(p).on('touchstart mousedown',function(e){
+
+				var startIndex = $(e.target).index();
+
+				
+
+				$(document).on('touchmove mousemove',function(ev){
+
+					ev.preventDefault();
+
+
+					var endIndex = $(ev.target).index();
+					$('#box').html(ev.target.innerHTML);
+					///console.log(ev.originalEvent.changedTouches[0].pageX);
+					return false;
+				}).on('touchend mouseup',function(e){
+					$(this).off('touchmove touchend mousemove mouseup');
+				})
+			})
+
+		}
+	</script>
+</body>
+</html>
