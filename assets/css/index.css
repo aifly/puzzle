@@ -35,7 +35,8 @@ html, body {
 body {
   font-family: "Helvetica Neue", 'Helvetica', "Microsoft YaHei", '微软雅黑', arial, sans-serif;
   overflow-x: hidden;
-  font-size: 14px; }
+  font-size: 14px;
+  background: #ff9c32; }
 
 img {
   border: none;

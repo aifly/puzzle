@@ -6,23 +6,124 @@
   top: 0;
   width: 100%;
   height: 100%;
+  @include displayBox(vertical);
+
+  &>div {
+    &:nth-of-type(1) {
+      height: 4.8rem;
+    }
+
+    &:nth-of-type(2) {
+      -webkit-box-flex: 1;
+    }
+
+  }
 
   .zmiti-stage-canvas {
-    @include pos(a);
-    top: 200px;
     border: 1px solid #999;
+  }
+
+  .zmiti-stage-title {
+    width: 9rem;
+    height: 1rem;
+    margin: .3rem auto 0;
+    color: #fff;
+    @include pos(r);
+    line-height: 1rem;
+
+    span {
+      font-weight: bold;
+
+      &:nth-of-type(1) {
+        font-size: .6rem;
+        text-shadow: 0 1px 10px rgba(221, 76, 0, .4);
+      }
+
+      &:nth-of-type(2) {
+        @include pos(a);
+        right: 0;
+        color: #520b09;
+      }
+
+    }
+
+  }
+
+  .zmiti-stage-puzzle {
+    width: 9rem;
+    margin: 0 auto;
+    height: 100%;
+    text-align: center;
+    border: 1px solid #000;
+    background: #ffdf1b;
+    @include br(5px);
+    @include pos(r);
+    padding: 2px;
+
+    &:before {
+      content: '';
+      @include pos(a);
+      left: 0;
+      bottom: -5px;
+      background: #f2390f;
+      width: 100%;
+      height: 10px;
+      @include br(5px);
+      z-index: -1;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    @include displayBox(vertical);
+
+    &>div {
+      -webkit-box-flex: 1;
+      width: 100%;
+      bottom: 0;
+      text-align: center;
+      line-height: 1rem;
+      @include displayBox(vertical);
+
+      span {
+        color: #520b09;
+        font-weight: bold;
+        display: block;
+        font-size: .5rem;
+      }
+
+    }
+
+    canvas {
+      left: 50%;
+      top: 2px;
+      background: #fff;
+      // @include transform(translate3d(-50%, 0, 0));
+    }
+
   }
 
   .zmiti-stage-imglist {
     width: 9rem;
     height: 3rem;
-    margin: .4rem auto;
+    margin: .2rem auto .4rem;
     @include displayBox(horizontal);
 
     &>div {
       height: 100%;
       @include pos(r);
-      @include br(5px);
+      @include br(2px);
+
+      &:after {
+        content: '';
+        @include pos(a);
+        width: 100%;
+        height: 10px;
+        background: #f2390f;
+        left: 0;
+        bottom: -4px;
+        @include br(2px);
+        z-index: -1;
+      }
 
       &:before {
         content: '';
@@ -33,7 +134,7 @@
         top: 0;
         background: -webkit-linear-gradient(bottom, #fbff89 0%, #fb8561 78%, #fff980 100%);
         box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-        @include br(5px);
+        @include br(2px);
       }
 
       &:nth-of-type(1) {
@@ -71,10 +172,21 @@
             height: 1rem;
             width: 1rem;
             float: left;
-            background: #fff;
+            background: #df7300;
             margin-left: 1px;
             margin-top: 1px;
             @include pos(r);
+
+            &:before {
+              content: '';
+              @include pos(a);
+              width: 100%;
+              height: 3px;
+              background: #f2390f;
+              border-bottom: 1px solid #000;
+              left: 0;
+              top: 0;
+            }
 
             canvas {
               width: 1rem;
@@ -87,6 +199,78 @@
           }
 
           height: 2.4rem;
+        }
+
+      }
+
+    }
+
+  }
+
+  .zmiti-stage-result {
+    @include pos(a);
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, .7);
+    @include displayBox(vertical);
+
+    &>div {
+      img {
+      }
+
+      .zmiti-stage-result-C {
+        width: 6rem;
+        height: 4rem;
+        background: #d6d4c5;
+        @include br(10px);
+        @include pos(r);
+
+        &:after {
+          content: '';
+          @include pos(a);
+          width: 100%;
+          height: 110px;
+          z-index: -1;
+          bottom: -5px;
+          @include br(10px);
+          background: #c36000;
+        }
+
+        .zmiti-stage-tip {
+          width: 100%;
+          text-align: center;
+          color: #ea0000;
+          background: #fff;
+          height: 1rem;
+          line-height: 1rem;
+          width: 80%;
+          font-weight: bold;
+          margin: .5rem auto 0;
+          @include br(4px);
+        }
+
+        .zmiti-stage-agin {
+          text-align: center;
+          margin-top: .5rem;
+
+          img {
+            opacity: 1;
+            width: 3rem;
+          }
+
+        }
+
+      }
+
+      .zmiti-stage-close {
+        text-align: center;
+        margin-top: 1rem;
+
+        img {
+          width: 1rem;
         }
 
       }

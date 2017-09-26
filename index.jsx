@@ -11,6 +11,7 @@ import Obserable from './components/public/obserable';
 
 
 import ZmitiStage from './stage/index.jsx'
+import ZmitiTipApp from './tip/index.jsx'
 
 
 var obserable = new Obserable();
@@ -193,7 +194,8 @@ class App extends Component {
 
 
 		return <div className='zmiti-main-ui'>
-			<ZmitiStage></ZmitiStage>
+			<ZmitiStage {...data}></ZmitiStage>
+			<ZmitiTipApp {...data}></ZmitiTipApp>
 		</div>
 	}
 

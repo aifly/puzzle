@@ -88,6 +88,10 @@
 
 	var _stageIndexJsx2 = _interopRequireDefault(_stageIndexJsx);
 
+	var _tipIndexJsx = __webpack_require__(201);
+
+	var _tipIndexJsx2 = _interopRequireDefault(_tipIndexJsx);
+
 	(0, _reactFastclick2['default'])();
 
 	var obserable = new _componentsPublicObserable2['default']();
@@ -273,7 +277,8 @@
 				return _react2['default'].createElement(
 					'div',
 					{ className: 'zmiti-main-ui' },
-					_react2['default'].createElement(_stageIndexJsx2['default'], null)
+					_react2['default'].createElement(_stageIndexJsx2['default'], data),
+					_react2['default'].createElement(_tipIndexJsx2['default'], data)
 				);
 			}
 		}, {
@@ -34819,7 +34824,7 @@
 
 
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\r\n/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\nhtml, body, div, p, ul, li, ol, dl, dt, dd, header, footer, video, h1, h2, h3, h4, canvas, section, figure {\r\n  padding: 0;\r\n  margin: 0; }\r\n\r\na {\r\n  text-decoration: none; }\r\n\r\nli {\r\n  list-style: none; }\r\n\r\nhtml, body {\r\n  height: 100%;\r\n  -webkit-tap-highlight-color: transparent; }\r\n\r\nbody {\r\n  font-family: \"Helvetica Neue\", 'Helvetica', \"Microsoft YaHei\", '\\5FAE\\8F6F\\96C5\\9ED1', arial, sans-serif;\r\n  overflow-x: hidden;\r\n  font-size: 14px; }\r\n\r\nimg {\r\n  border: none;\r\n  vertical-align: middle;\r\n  width: 100%;\r\n  height: auto; }\r\n\r\n.clearfix {\r\n  clear: both; }\r\n\r\ninput, textarea {\r\n  outline: none; }\r\n\r\n#fly-main-ui {\r\n  height: 100%; }\r\n\r\n.zmiti-main-ui {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute; }\r\n\r\n/*# sourceMappingURL=index.css.map */", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\r\n/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\nhtml, body, div, p, ul, li, ol, dl, dt, dd, header, footer, video, h1, h2, h3, h4, canvas, section, figure {\r\n  padding: 0;\r\n  margin: 0; }\r\n\r\na {\r\n  text-decoration: none; }\r\n\r\nli {\r\n  list-style: none; }\r\n\r\nhtml, body {\r\n  height: 100%;\r\n  -webkit-tap-highlight-color: transparent; }\r\n\r\nbody {\r\n  font-family: \"Helvetica Neue\", 'Helvetica', \"Microsoft YaHei\", '\\5FAE\\8F6F\\96C5\\9ED1', arial, sans-serif;\r\n  overflow-x: hidden;\r\n  font-size: 14px;\r\n  background: #ff9c32; }\r\n\r\nimg {\r\n  border: none;\r\n  vertical-align: middle;\r\n  width: 100%;\r\n  height: auto; }\r\n\r\n.clearfix {\r\n  clear: both; }\r\n\r\ninput, textarea {\r\n  outline: none; }\r\n\r\n#fly-main-ui {\r\n  height: 100%; }\r\n\r\n.zmiti-main-ui {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute; }\r\n\r\n/*# sourceMappingURL=index.css.map */", ""]);
 
 	// exports
 
@@ -35527,11 +35532,18 @@
 	      currentImgIndex: 0,
 	      opacity: 1,
 	      show: true,
-	      imgList: window.imgList
+	      imgList: window.imgList,
+	      srcElementIndex: 0,
+	      gk: 1,
+	      durantion: window.durations[0],
+
+	      showFailResult: false
 
 	    };
 	    this.viewW = document.documentElement.clientWidth;
 	    this.viewH = document.documentElement.clientHeight;
+
+	    window.s = this;
 	  }
 
 	  _createClass(ZmitiStage, [{
@@ -35547,7 +35559,23 @@
 	          null,
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'zmiti-stage-imglist' },
+	            { className: 'zmiti-stage-title' },
+	            _react2['default'].createElement(
+	              'span',
+	              null,
+	              this.state.title
+	            ),
+	            _react2['default'].createElement(
+	              'span',
+	              null,
+	              '还剩：',
+	              this.state.durantion,
+	              's'
+	            )
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { className: 'zmiti-stage-imglist', ref: 'zmiti-stage-imglist' },
 	            _react2['default'].createElement('div', { ref: 'raw-img' }),
 	            _react2['default'].createElement(
 	              'div',
@@ -35562,13 +35590,12 @@
 	                    var mainStyle = {};
 	                    if (i === _this.state.currentImgIndex) {
 	                      mainStyle.opacity = _this.state.opacity;
-	                      mainStyle.display = _this.state.show ? 'inline-block' : 'none';
 	                      mainStyle.WebkitTransform = 'translate3d(' + _this.state.transX + 'px,' + _this.state.transY + 'px,0)';
 	                    }
 	                    return _react2['default'].createElement(
 	                      'li',
 	                      { key: i },
-	                      _react2['default'].createElement('canvas', { className: 'canvas1_' + i, ref: 'canvas_' + item, style: mainStyle, width: _this.state.canvasW, height: _this.state.canvasH })
+	                      _react2['default'].createElement('canvas', { className: 'bitmap_' + (i / _this.state.picLen | 0) + '_' + i % _this.state.picLen, ref: 'canvas_' + item, style: mainStyle, width: _this.state.canvasW, height: _this.state.canvasH })
 	                    );
 	                  } else {
 	                    return _react2['default'].createElement('li', { key: i });
@@ -35578,8 +35605,97 @@
 	            )
 	          )
 	        ),
-	        _react2['default'].createElement('canvas', { draggable: 'true', ref: 'stage', className: 'zmiti-stage-canvas', width: this.state.canvasW * this.state.picLen, height: this.state.canvasH * this.state.picLen })
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'zmiti-stage-puzzle', ref: 'zmiti-stage-puzzle' },
+	          _react2['default'].createElement('canvas', { draggable: 'true', ref: 'stage', className: 'zmiti-stage-canvas', width: this.state.canvasW * this.state.picLen, height: this.state.canvasH * this.state.picLen }),
+	          _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
+	              'span',
+	              null,
+	              '当前关卡：',
+	              this.state.gk
+	            )
+	          )
+	        ),
+	        _react2['default'].createElement('div', { style: { height: '.5rem' } }),
+	        this.state.showFailResult && _react2['default'].createElement(
+	          'section',
+	          { className: 'zmiti-stage-result' },
+	          _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'zmiti-stage-result-C' },
+	              _react2['default'].createElement('div', { style: { height: '.5rem' } }),
+	              _react2['default'].createElement(
+	                'div',
+	                { className: 'zmiti-stage-tip' },
+	                '没有完成关卡：',
+	                this.state.gk
+	              ),
+	              _react2['default'].createElement(
+	                'div',
+	                { className: 'zmiti-stage-agin' },
+	                _react2['default'].createElement('img', { onClick: this.doAgin.bind(this), src: './assets/images/agin.png' })
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'zmiti-stage-close' },
+	              _react2['default'].createElement('img', { onClick: this.closeResult.bind(this), src: './assets/images/close.png' })
+	            )
+	          )
+	        )
 	      );
+	    }
+	  }, {
+	    key: 'closeResult',
+	    value: function closeResult() {
+	      //
+	      this.setState({
+	        showFailResult: false
+	      });
+	    }
+	  }, {
+	    key: 'doAgin',
+	    value: function doAgin() {
+	      var _this2 = this;
+
+	      //再来一次
+	      this.closeResult();
+
+	      this.setState({
+	        durantion: window.durations[this.state.gk - 1]
+	      });
+
+	      var obserable = this.props.obserable;
+
+	      obserable.trigger({
+	        type: 'gameStart'
+	      });
+
+	      this.drawImage();
+
+	      (0, _jquery2['default'])(this.refs['zmiti-stage-imglist']).find('canvas').show();
+
+	      this.container.children.forEach(function (child) {
+	        if (child.name.indexOf('bitmap') > -1) {
+	          _this2.container.removeChild(child);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'gameOver',
+	    value: function gameOver() {
+	      clearInterval(this.timer);
+
+	      this.setState({
+	        showFailResult: true
+	      });
 	    }
 	  }, {
 	    key: 'createArr',
@@ -35590,51 +35706,68 @@
 	      for (var i = 0; i < count; i++) {
 	        arr.push(i);
 	      }
+	      var area = this.state.picLen * this.state.picLen;
 
-	      /*arr.sort(() => {
-	        return m.random() - .5
-	      });*/
+	      var a = arr.slice(0, area);
+	      var c = arr.slice(area);
+	      a.sort(function () {
+	        return m.random() - .5;
+	      });
 
-	      if (arr[arr.length - 1] !== count) {
-	        var index = -1;
-	        arr.forEach(function (a, i) {
-	          if (a === count) {
-	            index = i;
-	          }
-	        });
-	        var last = arr[arr.length - 1];
-	        arr[arr.length - 1] = count;
-	        arr[index] = last;
-	      }
+	      arr = a.concat(c);
+
 	      return arr;
 	    }
 	  }, {
 	    key: 'showToast',
 	    value: function showToast(msg) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      this.setState({
 	        toast: msg
 	      });
 
 	      setTimeout(function () {
-	        _this2.setState({
+	        _this3.setState({
 	          toast: ''
 	        });
 	      }, 2000);
 	    }
 	  }, {
 	    key: 'drawImage',
-	    value: function drawImage() {}
+	    value: function drawImage() {
+	      var index = window.imgList.length * Math.random() | 0;
+	      this.loadImg(this.state.imgList[index].src);
+
+	      this.setState({
+	        title: this.state.imgList[index].title
+	      });
+	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.loadImg('./assets/images/300.jpg');
+	      var _this4 = this;
+
+	      this.drawImage();
+
+	      var obserable = this.props.obserable;
+
+	      obserable.on('gameStart', function (e) {
+	        _this4.timer = setInterval(function () {
+	          if (_this4.state.durantion <= 0) {
+	            _this4.gameOver();
+	            return;
+	          }
+	          _this4.setState({
+	            durantion: _this4.state.durantion - 1
+	          });
+	        }, 1000);
+	      });
 	    }
 	  }, {
 	    key: 'setDrag',
 	    value: function setDrag() {
-	      var _this3 = this;
+	      var _this5 = this;
 
 	      var canvas = this.refs['stage'],
 	          s = this;
@@ -35647,12 +35780,12 @@
 	          canvasH = canvas.height;
 	      this.createList().map(function (item, i) {
 
-	        (0, _jquery2['default'])(_this3.refs['canvas_' + item]).on('touchstart', function (e) {
-	          var _this4 = this;
+	        (0, _jquery2['default'])(_this5.refs['canvas_' + item]).on('touchstart', function (e) {
+	          var _this6 = this;
 
 	          var e = e.originalEvent.changedTouches[0];
-	          var offsetTop = canvas.offsetTop,
-	              offsetLeft = canvas.offsetLeft;
+	          var offsetTop = s.refs['zmiti-stage-puzzle'].offsetTop,
+	              offsetLeft = s.refs['zmiti-stage-puzzle'].offsetLeft;
 	          var startX = e.pageX,
 	              startY = e.pageY;
 	          s.setState({
@@ -35697,9 +35830,11 @@
 
 	              //console.log('i => ' + i, ' j => ' + j)
 
-	              var bitMap = new createjs.Bitmap(_this4);
+	              var bitMap = new createjs.Bitmap(_this6);
 	              bitMap.x = oneWidth * i;
 	              bitMap.y = oneHeight * j;
+
+	              bitMap.name1 = _this6.className;
 
 	              if (!s.container.getChildByName('bitmap_' + j + '_' + i)) {
 	                bitMap.name = 'bitmap_' + j + '_' + i;
@@ -35707,16 +35842,46 @@
 	                var rect = s.container.getChildByName('rect_' + j + "_" + i);
 	                if (rect) {
 	                  rect.alpha = 0;
-	                  (0, _jquery2['default'])(_this4).remove();
+	                  (0, _jquery2['default'])(_this6).hide();
 	                }
 	                s.dragCount++;
 
 	                s.container.addChild(bitMap);
-	                s.container.setChildIndex(bitMap, 1);
+	                s.container.setChildIndex(bitMap, 2);
+
+	                s.container.children.forEach(function (child) {
+	                  if (child.name.indexOf('line') > -1) {
+	                    s.container.removeChild(child);
+	                  }
+	                });
+
+	                s.lineArr.forEach(function (l) {
+	                  s.container.addChild(l);
+	                });
+	                s.lineArr1.forEach(function (l) {
+	                  s.container.addChild(l);
+	                });
+
 	                s.stage.update();
 
 	                if (s.dragCount >= s.state.picLen * s.state.picLen) {
 	                  //拖放完成
+	                  var success = true;
+	                  s.container.children.forEach(function (child, i) {
+	                    if (child.name && child.name.indexOf('bitmap_') > -1) {
+
+	                      if (child.name !== child.name1) {
+	                        success = false;
+	                      }
+	                    }
+	                  });
+
+	                  if (success) {//成功。进入下一关
+
+	                  } else {
+	                      //失败
+	                      s.gameOver();
+	                    }
 	                }
 	              } else {}
 	            }
@@ -35731,8 +35896,8 @@
 
 	      (0, _jquery2['default'])(canvas).on('touchstart', function (e) {
 	        var e = e.originalEvent.changedTouches[0];
-	        var offsetTop = canvas.offsetTop,
-	            offsetLeft = canvas.offsetLeft;
+	        var offsetTop = s.refs['zmiti-stage-puzzle'].offsetTop,
+	            offsetLeft = s.refs['zmiti-stage-puzzle'].offsetLeft;
 
 	        var startX = e.pageX - offsetLeft,
 	            startY = e.pageY - offsetTop;
@@ -35741,16 +35906,14 @@
 	            j = startY / oneHeight | 0;
 
 	        var bitmap = s.container.getChildByName('bitmap_' + j + '_' + i);
+	        if (!bitmap) {
+	          return;
+	        }
 
 	        bitmap.defaultX = bitmap.x;
 	        bitmap.defaultY = bitmap.y;
 
 	        canvas.lastBitmap = bitmap;
-	        console.log(bitmap);
-
-	        if (!bitmap) {
-	          return;
-	        }
 
 	        (0, _jquery2['default'])(document).on('touchmove', function (e) {
 	          var e = e.originalEvent.changedTouches[0];
@@ -35796,11 +35959,13 @@
 	  }, {
 	    key: 'createList',
 	    value: function createList() {
+
 	      var num = this.state.picLen * this.state.picLen;
 	      var arr = [];
 	      for (var i = 0; i < num; i++) {
 	        arr.push(i);
 	      }
+
 	      return arr;
 	    }
 	  }, {
@@ -35810,7 +35975,13 @@
 	      var stage = new createjs.Stage(canvas);
 
 	      var width = canvas.width,
-	          height = canvas.height;
+	          height = canvas.height,
+	          s = this;
+
+	      var container = new createjs.Container();
+	      this.container = container;
+	      var lineArr = [],
+	          lineArr1 = [];
 
 	      for (var i = 0; i < this.state.picLen - 1; i++) {
 	        var line1 = new createjs.Shape();
@@ -35819,14 +35990,19 @@
 	        var line2 = new createjs.Shape();
 	        line2.graphics.setStrokeStyle(1).beginStroke('#999').moveTo(canvas.width / this.state.picLen * (i + 1), 0).lineTo(canvas.width / this.state.picLen * (i + 1), canvas.height);
 
-	        stage.addChild(line1);
-	        stage.addChild(line2);
-	        stage.setChildIndex(line1, 1000);
-	        stage.setChildIndex(line2, 1000);
-	      }
+	        container.setChildIndex(line1, 99999);
+	        container.setChildIndex(line2, 99998);
+	        line1.name = 'line_' + i;
+	        line2.name = 'line2_' + i;
+	        lineArr.push(line1);
+	        lineArr1.push(line2);
 
-	      var container = new createjs.Container();
-	      this.container = container;
+	        container.addChild(line1);
+	        container.addChild(line2);
+	      }
+	      this.lineArr = lineArr;
+	      this.lineArr1 = lineArr1;
+
 	      for (var i = 0; i < this.state.picLen; i++) {
 
 	        for (var j = 0; j < this.state.picLen; j++) {
@@ -35835,7 +36011,7 @@
 	          rect.name = 'rect_' + i + '_' + j;
 	          rect.graphics.beginStroke('rgba(255,0,0,1)').drawRect(j * width / this.state.picLen, i * height / this.state.picLen, width / this.state.picLen, height / this.state.picLen);
 	          rect.alpha = 0;
-	          stage.setChildIndex(container, 1000 + i + j);
+	          //stage.setChildIndex(container, 10 + i + j);
 	          container.addChild(rect);
 	          stage.addChild(container);
 	        }
@@ -35843,7 +36019,6 @@
 
 	      stage.update();
 	      this.stage = stage;
-
 	      stage.update();
 	    }
 	  }, {
@@ -35861,18 +36036,21 @@
 	          canvasW: canvas.width / s.state.picLen,
 	          canvasH: canvas.height / s.state.picLen
 	        });
-	        s.createLines();
 	        var context = canvas.getContext('2d');
 
 	        context.drawImage(this, 0, 0, canvas.width, canvas.height);
+	        s.createLines();
+	        s.refs['raw-img'].innerHTML = '';
 	        s.refs['raw-img'].appendChild(canvas);
 
 	        s.setDrag();
 
 	        for (var i = 0; i < s.state.picLen; i++) {
 	          for (var j = 0; j < s.state.picLen; j++) {
-	            var context1 = s.refs['canvas_' + (i * s.state.picLen + j)].getContext('2d');
-
+	            var c1 = s.refs['canvas_' + (i * s.state.picLen + j)];
+	            var context1 = c1.getContext('2d');
+	            var r = i * s.state.picLen + j;
+	            c1.className = 'bitmap_' + (r / s.state.picLen | 0) + '_' + r % s.state.picLen;
 	            context1.drawImage(canvas, canvas.width / s.state.picLen * j, canvas.height / s.state.picLen * i, canvas.width / s.state.picLen, canvas.height / s.state.picLen, 0, 0, canvas.width / s.state.picLen, canvas.height / s.state.picLen);
 	            //console.log(canvas.width / s.state.picLen * i, canvas.height / s.state.picLen * j)
 	          }
@@ -35888,20 +36066,6 @@
 
 	exports['default'] = (0, _componentsPublicPubJsx.PubCom)(ZmitiStage);
 	module.exports = exports['default'];
-
-	/* {
-	        this.createList().map((item,i)=>{
-	          var mainStyle={margin:1}
-	          if(i === this.state.currentImgIndex){
-	            mainStyle.opacity = this.state.opacity;
-	            mainStyle.display = this.state.show?'inline-block':'none'
-	            mainStyle.WebkitTransform = 'translate3d('+(this.state.transX)+'px,'+this.state.transY+'px,0)'
-	          }
-	          return <canvas className={'canvas_'+i}  ref={'canvas_'+i} style={mainStyle} width={this.state.canvasW} height={this.state.canvasH} key={i}></canvas>
-	        })
-	          
-	      }
-	*/
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("F:\\xuchang2017\\project\\puzzle\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -35940,7 +36104,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\n.zmiti-stage-main-ui {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%; }\r\n  .zmiti-stage-main-ui .zmiti-stage-canvas {\r\n    position: absolute;\r\n    top: 200px;\r\n    border: 1px solid #999; }\r\n  .zmiti-stage-main-ui .zmiti-stage-imglist {\r\n    width: 9rem;\r\n    height: 3rem;\r\n    margin: .4rem auto;\r\n    display: -webkit-box;\r\n    -webkit-box-align: center;\r\n    -webkit-box-pack: center;\r\n    -webkit-box-orient: horizontal; }\r\n    .zmiti-stage-main-ui .zmiti-stage-imglist > div {\r\n      height: 100%;\r\n      position: relative;\r\n      border-radius: 5px; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:before {\r\n        content: '';\r\n        position: absolute;\r\n        width: 100%;\r\n        height: 100%;\r\n        left: 0;\r\n        top: 0;\r\n        background: -webkit-linear-gradient(bottom, #fbff89 0%, #fb8561 78%, #fff980 100%);\r\n        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);\r\n        border-radius: 5px; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(1) {\r\n        width: 3rem;\r\n        margin-right: 10px; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(1) canvas {\r\n          width: 2.6rem;\r\n          height: 2.6rem;\r\n          margin: .2rem;\r\n          z-index: 10;\r\n          position: relative;\r\n          -webkit-transform-origin: left top;\r\n          transform-origin: left top; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) {\r\n        -webkit-box-flex: 1;\r\n        display: -webkit-box;\r\n        -webkit-box-align: center;\r\n        -webkit-box-pack: center;\r\n        -webkit-box-orient: horizontal; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > div {\r\n          width: .4rem; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul {\r\n          position: relative;\r\n          z-index: 10;\r\n          height: 2.2rem;\r\n          -webkit-box-flex: 1;\r\n          margin-top: .4rem;\r\n          height: 2.4rem; }\r\n          .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul li {\r\n            box-sizing: border-box;\r\n            height: 1rem;\r\n            width: 1rem;\r\n            float: left;\r\n            background: #fff;\r\n            margin-left: 1px;\r\n            margin-top: 1px;\r\n            position: relative; }\r\n            .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul li canvas {\r\n              width: 1rem;\r\n              height: 1rem;\r\n              position: absolute;\r\n              left: 0;\r\n              top: 0; }\r\n/*# sourceMappingURL=index.css.map */", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\n.zmiti-stage-main-ui {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  display: -webkit-box;\r\n  -webkit-box-align: center;\r\n  -webkit-box-pack: center;\r\n  -webkit-box-orient: vertical; }\r\n  .zmiti-stage-main-ui > div:nth-of-type(1) {\r\n    height: 4.8rem; }\r\n  .zmiti-stage-main-ui > div:nth-of-type(2) {\r\n    -webkit-box-flex: 1; }\r\n  .zmiti-stage-main-ui .zmiti-stage-canvas {\r\n    border: 1px solid #999; }\r\n  .zmiti-stage-main-ui .zmiti-stage-title {\r\n    width: 9rem;\r\n    height: 1rem;\r\n    margin: .3rem auto 0;\r\n    color: #fff;\r\n    position: relative;\r\n    line-height: 1rem; }\r\n    .zmiti-stage-main-ui .zmiti-stage-title span {\r\n      font-weight: bold; }\r\n      .zmiti-stage-main-ui .zmiti-stage-title span:nth-of-type(1) {\r\n        font-size: .6rem;\r\n        text-shadow: 0 1px 10px rgba(221, 76, 0, 0.4); }\r\n      .zmiti-stage-main-ui .zmiti-stage-title span:nth-of-type(2) {\r\n        position: absolute;\r\n        right: 0;\r\n        color: #520b09; }\r\n  .zmiti-stage-main-ui .zmiti-stage-puzzle {\r\n    width: 9rem;\r\n    margin: 0 auto;\r\n    height: 100%;\r\n    text-align: center;\r\n    border: 1px solid #000;\r\n    background: #ffdf1b;\r\n    border-radius: 5px;\r\n    position: relative;\r\n    padding: 2px;\r\n    display: -webkit-box;\r\n    -webkit-box-align: center;\r\n    -webkit-box-pack: center;\r\n    -webkit-box-orient: vertical; }\r\n    .zmiti-stage-main-ui .zmiti-stage-puzzle:before {\r\n      content: '';\r\n      position: absolute;\r\n      left: 0;\r\n      bottom: -5px;\r\n      background: #f2390f;\r\n      width: 100%;\r\n      height: 10px;\r\n      border-radius: 5px;\r\n      z-index: -1;\r\n      border: 1px solid #000;\r\n      box-sizing: border-box; }\r\n    .zmiti-stage-main-ui .zmiti-stage-puzzle > div {\r\n      -webkit-box-flex: 1;\r\n      width: 100%;\r\n      bottom: 0;\r\n      text-align: center;\r\n      line-height: 1rem;\r\n      display: -webkit-box;\r\n      -webkit-box-align: center;\r\n      -webkit-box-pack: center;\r\n      -webkit-box-orient: vertical; }\r\n      .zmiti-stage-main-ui .zmiti-stage-puzzle > div span {\r\n        color: #520b09;\r\n        font-weight: bold;\r\n        display: block;\r\n        font-size: .5rem; }\r\n    .zmiti-stage-main-ui .zmiti-stage-puzzle canvas {\r\n      left: 50%;\r\n      top: 2px;\r\n      background: #fff; }\r\n  .zmiti-stage-main-ui .zmiti-stage-imglist {\r\n    width: 9rem;\r\n    height: 3rem;\r\n    margin: .2rem auto .4rem;\r\n    display: -webkit-box;\r\n    -webkit-box-align: center;\r\n    -webkit-box-pack: center;\r\n    -webkit-box-orient: horizontal; }\r\n    .zmiti-stage-main-ui .zmiti-stage-imglist > div {\r\n      height: 100%;\r\n      position: relative;\r\n      border-radius: 2px; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:after {\r\n        content: '';\r\n        position: absolute;\r\n        width: 100%;\r\n        height: 10px;\r\n        background: #f2390f;\r\n        left: 0;\r\n        bottom: -4px;\r\n        border-radius: 2px;\r\n        z-index: -1; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:before {\r\n        content: '';\r\n        position: absolute;\r\n        width: 100%;\r\n        height: 100%;\r\n        left: 0;\r\n        top: 0;\r\n        background: -webkit-linear-gradient(bottom, #fbff89 0%, #fb8561 78%, #fff980 100%);\r\n        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);\r\n        border-radius: 2px; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(1) {\r\n        width: 3rem;\r\n        margin-right: 10px; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(1) canvas {\r\n          width: 2.6rem;\r\n          height: 2.6rem;\r\n          margin: .2rem;\r\n          z-index: 10;\r\n          position: relative;\r\n          -webkit-transform-origin: left top;\r\n          transform-origin: left top; }\r\n      .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) {\r\n        -webkit-box-flex: 1;\r\n        display: -webkit-box;\r\n        -webkit-box-align: center;\r\n        -webkit-box-pack: center;\r\n        -webkit-box-orient: horizontal; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > div {\r\n          width: .4rem; }\r\n        .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul {\r\n          position: relative;\r\n          z-index: 10;\r\n          height: 2.2rem;\r\n          -webkit-box-flex: 1;\r\n          margin-top: .4rem;\r\n          height: 2.4rem; }\r\n          .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul li {\r\n            box-sizing: border-box;\r\n            height: 1rem;\r\n            width: 1rem;\r\n            float: left;\r\n            background: #df7300;\r\n            margin-left: 1px;\r\n            margin-top: 1px;\r\n            position: relative; }\r\n            .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul li:before {\r\n              content: '';\r\n              position: absolute;\r\n              width: 100%;\r\n              height: 3px;\r\n              background: #f2390f;\r\n              border-bottom: 1px solid #000;\r\n              left: 0;\r\n              top: 0; }\r\n            .zmiti-stage-main-ui .zmiti-stage-imglist > div:nth-of-type(2) > ul li canvas {\r\n              width: 1rem;\r\n              height: 1rem;\r\n              position: absolute;\r\n              left: 0;\r\n              top: 0; }\r\n  .zmiti-stage-main-ui .zmiti-stage-result {\r\n    position: absolute;\r\n    z-index: 1000;\r\n    width: 100%;\r\n    height: 100%;\r\n    left: 0;\r\n    top: 0;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    display: -webkit-box;\r\n    -webkit-box-align: center;\r\n    -webkit-box-pack: center;\r\n    -webkit-box-orient: vertical; }\r\n    .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-result-C {\r\n      width: 6rem;\r\n      height: 4rem;\r\n      background: #d6d4c5;\r\n      border-radius: 10px;\r\n      position: relative; }\r\n      .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-result-C:after {\r\n        content: '';\r\n        position: absolute;\r\n        width: 100%;\r\n        height: 110px;\r\n        z-index: -1;\r\n        bottom: -5px;\r\n        border-radius: 10px;\r\n        background: #c36000; }\r\n      .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-result-C .zmiti-stage-tip {\r\n        width: 100%;\r\n        text-align: center;\r\n        color: #ea0000;\r\n        background: #fff;\r\n        height: 1rem;\r\n        line-height: 1rem;\r\n        width: 80%;\r\n        font-weight: bold;\r\n        margin: .5rem auto 0;\r\n        border-radius: 4px; }\r\n      .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-result-C .zmiti-stage-agin {\r\n        text-align: center;\r\n        margin-top: .5rem; }\r\n        .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-result-C .zmiti-stage-agin img {\r\n          opacity: 1;\r\n          width: 3rem; }\r\n    .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-close {\r\n      text-align: center;\r\n      margin-top: 1rem; }\r\n      .zmiti-stage-main-ui .zmiti-stage-result > div .zmiti-stage-close img {\r\n        width: 1rem; }\r\n\r\n/*# sourceMappingURL=index.css.map */", ""]);
 
 	// exports
 
@@ -36128,6 +36292,191 @@
 
 	// module
 	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\n.zmiti-toast-main-ui {\r\n  background: rgba(0, 0, 0, 0.5);\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  -webkit-transform: translate3d(-50%, 0, 0);\r\n  transform: translate3d(-50%, 0, 0);\r\n  padding: 10px;\r\n  text-align: center;\r\n  color: #fff;\r\n  width: 50%;\r\n  border-radius: 10px;\r\n  z-index: 99999; }\r\n\r\n/*# sourceMappingURL=index.css.map */", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("F:\\xuchang2017\\project\\puzzle\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("F:\\xuchang2017\\project\\puzzle\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(38);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _jquery = __webpack_require__(186);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	__webpack_require__(202);
+
+	var _componentsPublicPubJsx = __webpack_require__(197);
+
+	var ZmitiTipApp = (function (_Component) {
+	  _inherits(ZmitiTipApp, _Component);
+
+	  function ZmitiTipApp(props) {
+	    _classCallCheck(this, ZmitiTipApp);
+
+	    _get(Object.getPrototypeOf(ZmitiTipApp.prototype), 'constructor', this).call(this, props);
+
+	    this.state = {
+	      show: true,
+	      showBtn: true
+	    };
+	    this.viewW = document.documentElement.clientWidth;
+	    this.viewH = document.documentElement.clientHeight;
+	  }
+
+	  _createClass(ZmitiTipApp, [{
+	    key: 'render',
+	    value: function render() {
+
+	      var mainStyle = {
+	        background: 'url(./assets/images/tip.jpg) no-repeat center center',
+	        backgroundSize: 'cover',
+	        display: this.state.show ? 'block' : 'none'
+
+	      };
+
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: 'zmiti-tip-main-ui ' + this.state.className, style: mainStyle },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'zmiti-tip-hand' },
+	          _react2['default'].createElement('img', { src: './assets/images/hand.png' })
+	        ),
+	        this.state.showBtn && _react2['default'].createElement(
+	          'div',
+	          { className: 'zmiti-tip-btn', onClick: this.startGame.bind(this) },
+	          _react2['default'].createElement('img', { src: './assets/images/btn.png' }),
+	          _react2['default'].createElement(
+	            'span',
+	            null,
+	            '移动拼图碎片，拼合成完整图片即可过关。'
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'startGame',
+	    value: function startGame() {
+	      this.setState({
+	        show: false
+	      });
+
+	      var obserable = this.props.obserable;
+
+	      obserable.trigger({
+	        type: 'gameStart'
+	      });
+	    }
+	  }, {
+	    key: 'showToast',
+	    value: function showToast(msg) {
+	      var _this = this;
+
+	      this.setState({
+	        toast: msg
+	      });
+
+	      setTimeout(function () {
+	        _this.setState({
+	          toast: ''
+	        });
+	      }, 2000);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      var obserable = this.props.obserable;
+
+	      obserable.on('toggleTips', function (e) {
+	        _this2.setState({
+	          show: e
+	        });
+
+	        if (e) {
+
+	          setTimeout(function () {
+	            _this2.setState({
+	              showBtn: true
+	            });
+	          }, 1000);
+	        }
+	      });
+	    }
+	  }]);
+
+	  return ZmitiTipApp;
+	})(_react.Component);
+
+	exports['default'] = (0, _componentsPublicPubJsx.PubCom)(ZmitiTipApp);
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("F:\\xuchang2017\\project\\puzzle\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(203);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(191)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js!./index.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js!./index.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(190)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0; }\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis; }\r\n\r\n.zmiti-tip-main-ui {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10; }\r\n  .zmiti-tip-main-ui .zmiti-tip-hand {\r\n    position: absolute;\r\n    width: 1rem;\r\n    left: 45%;\r\n    top: 2.5rem;\r\n    -webkit-animation: move 2s 3;\r\n    animation: move 2s 3; }\r\n  .zmiti-tip-main-ui .zmiti-tip-btn {\r\n    position: absolute;\r\n    width: 4.5rem;\r\n    top: 3rem;\r\n    right: .2rem; }\r\n    .zmiti-tip-main-ui .zmiti-tip-btn span {\r\n      position: absolute;\r\n      top: .3rem;\r\n      font-weight: bold;\r\n      z-index: 10;\r\n      left: 0;\r\n      width: 90%;\r\n      left: 5%;\r\n      font-size: 12px; }\r\n\r\n@-webkit-keyframes move {\r\n  to {\r\n    -webkit-transform: translate3d(0, 4rem, 0);\r\n    transform: translate3d(0, 4rem, 0); } }\r\n\r\n/*# sourceMappingURL=index.css.map */", ""]);
 
 	// exports
 
