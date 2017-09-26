@@ -12,6 +12,8 @@ import Obserable from './components/public/obserable';
 
 import ZmitiStage from './stage/index.jsx'
 import ZmitiTipApp from './tip/index.jsx'
+import ZmitiShareApp from './share/index.jsx'
+import ZmitiIndexApp from './index/index.jsx'
 
 
 var obserable = new Obserable();
@@ -26,15 +28,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nickname: "",
-			picLen: 3,
-			canvasW: 0,
-			canvasH: 0,
-			transX: 0,
-			transY: 0,
-			currentImgIndex: 0,
-			opacity: 1,
-			show: true
+			 
 
 		}
 
@@ -196,6 +190,8 @@ class App extends Component {
 		return <div className='zmiti-main-ui'>
 			<ZmitiStage {...data}></ZmitiStage>
 			<ZmitiTipApp {...data}></ZmitiTipApp>
+			<ZmitiShareApp {...data}></ZmitiShareApp>
+			<ZmitiIndexApp {...data}></ZmitiIndexApp>
 		</div>
 	}
 

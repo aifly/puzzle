@@ -106,6 +106,7 @@ class ZmitiStage extends Component {
     this.setState({
       showFailResult: false
     });
+    clearInterval(this.timer);
   }
 
   doAgin() { //再来一次
@@ -125,7 +126,9 @@ class ZmitiStage extends Component {
 
     this.drawImage();
 
-    $(this.refs['zmiti-stage-imglist']).find('canvas').show()
+    setTimeout(()=>{
+      $(this.refs['zmiti-stage-imglist']).find('canvas').show()
+    },100)
 
     this.container.children.forEach((child) => {
       if (child.name.indexOf('bitmap') > -1) {
@@ -136,9 +139,20 @@ class ZmitiStage extends Component {
 
   }
 
+  nextGK(){//下一关.
+    this.dragCount = 0;
+
+    this.setState({
+      gk:this.state.gk+1
+    },()=>{
+      this.doAgin();
+    });
+
+  }
+
   gameOver() {
     clearInterval(this.timer);
-
+    this.dragCount = 0;
     this.setState({
       showFailResult: true
     })
@@ -332,7 +346,9 @@ class ZmitiStage extends Component {
                 })
 
                 if (success) { //成功。进入下一关
-
+                  setTimeout(()=>{
+                    s.nextGK(); 
+                  },1000)
                 } else { //失败
                   s.gameOver();
                 }
@@ -520,8 +536,6 @@ class ZmitiStage extends Component {
 
 
       s.setDrag()
-
-
 
       for (var i = 0; i < s.state.picLen; i++) {
         for (var j = 0; j < s.state.picLen; j++) {
