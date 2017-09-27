@@ -18,7 +18,7 @@ class ZmitiShareApp extends Component {
     super(props);
 
     this.state = {
-      className: 'right',
+      className: 'hide',
       wish: '',
       transX: 0,
       transY: 0
@@ -34,21 +34,23 @@ class ZmitiShareApp extends Component {
     return null;
   }
   render() {
-     
+
 
     var s = this;
-    var file = s.getQueryString('file');
-    var border = s.getQueryString('border');
-    var wish = s.getQueryString('wish');
+
 
     return <div className={'zmiti-share-main-ui '+ this.state.className}>
         <div className='zmiti-share-bg'>
           <div className='zmiti-share-info'>
-            <div>XXX在“中国成就”拼图游戏中</div>
-            <div>用时:40s</div>
-            <div>成功闯到第六关!</div>
+            <div>{this.state.nickname}在“中国成就”拼图游戏中</div>
+            <div>用时:{this.state.duration||0}s</div>
+            <div>成功闯到第{this.state.gk}关!</div>
             <div className='zmiti-puzzle-img'>
-              <img src='./assets/images/300.jpg'/>
+              <img src={this.state.src}/>
+            </div>
+
+            <div className='zmiti-medo'>
+              <a href={window.href}><img src='./assets/images/medo.png'/></a>
             </div>
           </div>
         </div>
@@ -56,7 +58,6 @@ class ZmitiShareApp extends Component {
 
   }
 
-   
 
 
   showToast(msg) {
@@ -74,6 +75,7 @@ class ZmitiShareApp extends Component {
 
   componentDidMount() {
 
+
     var {
       obserable,
       wxConfig,
@@ -88,63 +90,29 @@ class ZmitiShareApp extends Component {
 
     } = this.props;
 
-    if (border && file && wish) {
+    var s = this;
+    var src = s.getQueryString('src');
+    var nickname = s.getQueryString('nickname');
+    var duration = s.getQueryString('duration');
+    var gk = s.getQueryString('gk');
+
+    if (src && duration) {
       this.setState({
-        className: "active",
-        wish: decodeURI(wish),
-        border,
-        file,
-        transX,
-        transY
+        src,
+        className: '',
+        nickname,
+        duration,
+        gk
       });
+
     }
-    obserable.on('fixedResultPos', (data) => {
+
+    obserable.on('showShare', e => {
       this.setState({
-        transX: data.transX,
-        transY: data.transY
-      })
-    })
-    obserable.on('toggleResult', e => {
-      this.setState({
-        className: e,
-        wish: obserable.trigger({
-          type: 'getWish'
-        })
-      }, () => {
-        this.getAssets();
+        className: '',
+        allduration: e.durantion,
+        gk: e.gk
       });
-
-      if (e === 'active') {
-
-        var url = window.location.href;
-        var params = JSON.stringify({
-          file: obserable.trigger({
-            type: 'getFile'
-          }),
-          border: obserable.trigger({
-            type: 'getBorder'
-          }).src
-        })
-
-        url = changeURLPar(url, 'file', obserable.trigger({
-          type: 'getFile'
-        }));
-        url = changeURLPar(url, 'border', obserable.trigger({
-          type: 'getBorder'
-        }).src);
-
-        url = changeURLPar(url, 'wish', encodeURI(obserable.trigger({
-          type: 'getWish'
-        })));
-        url = changeURLPar(url, 'transX', this.state.transX);
-        url = changeURLPar(url, 'transY', this.state.transY);
-        setTimeout(() => {
-          url = url.split('#')[0];
-          wxConfig(window.share.title.replace(/{nickname}/, window.nickname), window.share.desc, 'http://h5.zmiti.com/public/teacherday/assets/images/300.jpg', url);
-        }, 1000)
-
-      }
-
     });
   }
 
@@ -153,9 +121,6 @@ class ZmitiShareApp extends Component {
     var replaceText = arg + '=' + val;
     return url.match(pattern) ? url.replace(eval('/(' + arg + '=)([^&]*)/gi'), replaceText) : (url.match('[\?]') ? url + '&' + replaceText : url + '?' + replaceText);
   }
-
- 
-
 
 }
 

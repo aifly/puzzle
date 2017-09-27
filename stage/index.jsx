@@ -27,7 +27,8 @@ class ZmitiStage extends Component {
       imgList: window.imgList,
       srcElementIndex: 0,
       gk: 1,
-      durantion: window.durations[0],
+      allDuration: 0,
+      duration: window.durations[0],
 
       showFailResult: false
 
@@ -36,7 +37,7 @@ class ZmitiStage extends Component {
     this.viewW = document.documentElement.clientWidth;
     this.viewH = document.documentElement.clientHeight;
 
-    window.s = this;
+    window.ss = this;
 
   }
   render() {
@@ -44,7 +45,7 @@ class ZmitiStage extends Component {
 
     return <div className='zmiti-stage-main-ui'>
       <div>
-        <div className='zmiti-stage-title'><span>{this.state.title}</span><span>还剩：{this.state.durantion}s</span></div>
+        <div className='zmiti-stage-title'><span>{this.state.title}</span><span>还剩：{this.state.duration}s</span></div>
         <div className='zmiti-stage-imglist' ref='zmiti-stage-imglist'>
           <div ref='raw-img'></div>
           <div>
@@ -113,7 +114,7 @@ class ZmitiStage extends Component {
     this.closeResult();
 
     this.setState({
-      durantion: window.durations[this.state.gk - 1]
+      duration: window.durations[this.state.gk - 1]
     });
 
     var {
@@ -126,9 +127,9 @@ class ZmitiStage extends Component {
 
     this.drawImage();
 
-    setTimeout(()=>{
+    setTimeout(() => {
       $(this.refs['zmiti-stage-imglist']).find('canvas').show()
-    },100)
+    }, 100)
 
     this.container.children.forEach((child) => {
       if (child.name.indexOf('bitmap') > -1) {
@@ -139,13 +140,75 @@ class ZmitiStage extends Component {
 
   }
 
-  nextGK(){//下一关.
-    this.dragCount = 0;
+  nextGK() { //下一关.
+
 
     this.setState({
-      gk:this.state.gk+1
-    },()=>{
-      this.doAgin();
+      allDuration: this.state.allDuration + (window.durations[this.state.gk - 1] - this.state.duration)
+    })
+
+    var {
+      obserable,
+      wxConfig,
+      nickname,
+      changeURLPar
+    } = this.props;
+
+    if (!window.durations[this.state.gk]) {
+      obserable.trigger({
+          type: 'showShare',
+          data: {
+            duration: this.state.allDuration,
+            gk: this.state.gk
+          }
+        })
+        //进入结果页
+
+      return;
+    }
+    this.dragCount = 0;
+
+    var url = window.location.href;
+
+    $.ajax({
+      url: 'http://api.zmiti.com/v2/share/base64_image/',
+      type: 'post',
+      data: {
+        setcontents: this.stage.toDataURL(),
+        setimage_w: 300,
+        setimage_h: 300
+      }
+    }).done(data => {
+
+      if (data.getret === 0) {
+        var src = data.getimageurl;
+
+
+        url = changeURLPar(url, 'nickname', encodeURI(nickname));
+        url = changeURLPar(url, 'duration', this.state.allDuration);
+        url = changeURLPar(url, 'src', src);
+        url = changeURLPar(url, 'gk', this.state.gk);
+
+        url = url.split('#')[0];
+        wxConfig(nickname + '在“中国成就”拼图游戏中成功闯到第' + this.state.gk + '关', window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
+
+      }
+    })
+
+
+
+    this.setState({
+      gk: this.state.gk + 1
+    }, () => {
+      if (this.state.gk > 6) {
+        this.setState({
+          picLen: 3
+        }, () => {
+          this.doAgin();
+        })
+      } else {
+        this.doAgin();
+      }
     });
 
   }
@@ -198,17 +261,24 @@ class ZmitiStage extends Component {
 
   drawImage() {
     var index = window.imgList.length * Math.random() | 0;
-    this.loadImg(this.state.imgList[index].src);
+    var obj = this.state.imgList.splice(index, 1)[0];
+    this.loadImg(obj.src);
 
     this.setState({
-      title: this.state.imgList[index].title
+      title: obj.title
     })
   }
-
+  getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return (r[2]);
+    return null;
+  }
 
   componentDidMount() {
 
-    this.drawImage();
+    var src = this.getQueryString('src');
+    !src && this.drawImage();
 
     let {
       obserable
@@ -216,12 +286,12 @@ class ZmitiStage extends Component {
 
     obserable.on('gameStart', e => {
       this.timer = setInterval(() => {
-        if (this.state.durantion <= 0) {
+        if (this.state.duration <= 0) {
           this.gameOver();
           return;
         }
         this.setState({
-          durantion: this.state.durantion - 1
+          duration: this.state.duration - 1
         })
 
       }, 1000)
@@ -236,14 +306,21 @@ class ZmitiStage extends Component {
 
     this.dragCount = this.dragCount || 0;
 
-
-    var oneHeight = canvas.height / this.state.picLen,
-      oneWidth = canvas.width / this.state.picLen,
+    var oneHeight = canvas.height / s.state.picLen,
+      oneWidth = canvas.width / s.state.picLen,
       canvasW = canvas.width,
       canvasH = canvas.height;
+
     this.createList().map((item, i) => {
 
       $(this.refs['canvas_' + item]).on('touchstart', function(e) {
+
+
+        oneHeight = canvas.height / s.state.picLen;
+        oneWidth = canvas.width / s.state.picLen;
+        canvasW = canvas.width;
+        canvasH = canvas.height;
+
         var e = e.originalEvent.changedTouches[0];
         var offsetTop = s.refs['zmiti-stage-puzzle'].offsetTop,
           offsetLeft = s.refs['zmiti-stage-puzzle'].offsetLeft;
@@ -253,8 +330,6 @@ class ZmitiStage extends Component {
           opacity: .5,
           currentImgIndex: $(this).parents('li').index()
         })
-
-
 
         $(document).on('touchmove', e => {
           var e = e.originalEvent.changedTouches[0];
@@ -296,11 +371,11 @@ class ZmitiStage extends Component {
             //console.log('i => ' + i, ' j => ' + j)
 
             var bitMap = new createjs.Bitmap(this);
+
             bitMap.x = oneWidth * i;
             bitMap.y = oneHeight * j;
 
             bitMap.name1 = this.className;
-
 
 
             if (!s.container.getChildByName('bitmap_' + j + '_' + i)) {
@@ -346,16 +421,16 @@ class ZmitiStage extends Component {
                 })
 
                 if (success) { //成功。进入下一关
-                  setTimeout(()=>{
-                    s.nextGK(); 
-                  },1000)
+                  setTimeout(() => {
+                    s.nextGK();
+                  }, 1000)
                 } else { //失败
                   s.gameOver();
                 }
 
               }
             } else {
-
+              //有图片的，不能再拖进来了
             }
 
           }
@@ -383,8 +458,11 @@ class ZmitiStage extends Component {
       var i = startX / oneWidth | 0,
         j = startY / oneHeight | 0;
 
+      console.log(i, j)
+
       var bitmap = s.container.getChildByName('bitmap_' + j + '_' + i);
       if (!bitmap) {
+        //console.log(123);
         return;
       }
 
@@ -394,18 +472,29 @@ class ZmitiStage extends Component {
       canvas.lastBitmap = bitmap;
 
 
-
+      var bitmap1 = null;
       $(document).on('touchmove', e => {
         var e = e.originalEvent.changedTouches[0];
 
         bitmap.x = e.pageX - startX + i * oneWidth;
         bitmap.y = e.pageY - startY - offsetTop + j * oneHeight;
 
+        var X = e.pageX - offsetLeft,
+          Y = e.pageY - offsetTop;
+
+        var x = X / oneWidth | 0,
+          y = Y / oneHeight | 0;
+
+        bitmap1 = s.container.getChildByName('bitmap_' + y + '_' + x)
+
         s.stage.update()
 
 
       }).on('touchend', e => {
         $(document).off('touchend touchmove')
+
+        e.preventDefault();
+
         var e = e.originalEvent.changedTouches[0];
 
 
@@ -416,27 +505,24 @@ class ZmitiStage extends Component {
         var x = startX / oneWidth | 0,
           y = startY / oneHeight | 0;
 
-        var bitmap1 = s.container.getChildByName('bitmap_' + y + '_' + x)
 
         if (bitmap1 || x >= s.state.picLen || y >= s.state.picLen) {
+
           canvas.lastBitmap.x = canvas.lastBitmap.defaultX;
           canvas.lastBitmap.y = canvas.lastBitmap.defaultY;
           s.stage.update()
 
-          return; //该位置已经有了图片了
+          //该位置已经有了图片了
+        } else {
+          canvas.lastBitmap.name = 'bitmap_' + y + '_' + x;
+
+          canvas.lastBitmap.x = oneWidth * x;
+          canvas.lastBitmap.y = oneHeight * y
+
+          s.stage.update()
         }
 
-
-
-        var bitmap = s.container.getChildByName('bitmap_' + y + '_' + x)
-
-        canvas.lastBitmap.name = 'bitmap_' + y + '_' + x;
-
-        canvas.lastBitmap.x = oneWidth * x;
-        canvas.lastBitmap.y = oneHeight * y
-
-        s.stage.update()
-
+        return false;
 
       })
     })
@@ -461,9 +547,17 @@ class ZmitiStage extends Component {
     var canvas = this.refs['stage'];
     var stage = new createjs.Stage(canvas);
 
+    stage.removeAllChildren();
+
+
+
+    var context = canvas.getContext('2d');
+
+
     var width = canvas.width,
       height = canvas.height,
       s = this;
+    context.clearRect(0, 0, width, height);
 
     var container = new createjs.Container();
     this.container = container;
@@ -533,6 +627,7 @@ class ZmitiStage extends Component {
       s.createLines();
       s.refs['raw-img'].innerHTML = '';
       s.refs['raw-img'].appendChild(canvas)
+
 
 
       s.setDrag()

@@ -17,7 +17,7 @@ import ZmitiIndexApp from './index/index.jsx'
 
 
 var obserable = new Obserable();
-var worksid = '1606979000';
+var worksid = '5838923350';
 var data = {
 	wxappid: 'wxec2401ee9a70f3d9',
 	wxappsecret: 'fc2c8e7c243da9e8898516fa5da8cbbb'
@@ -28,7 +28,6 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			 
 
 		}
 
@@ -185,13 +184,16 @@ class App extends Component {
 			nickname: this.state.nickname
 		}
 
+		var isExist = this.state.src && this.state.nickname && this.state.duration;
 
+		console.log(isExist)
 
 		return <div className='zmiti-main-ui'>
-			<ZmitiStage {...data}></ZmitiStage>
-			<ZmitiTipApp {...data}></ZmitiTipApp>
-			<ZmitiShareApp {...data}></ZmitiShareApp>
-			<ZmitiIndexApp {...data}></ZmitiIndexApp>
+			{!isExist && <ZmitiStage {...data}></ZmitiStage>}
+			{!isExist && <ZmitiTipApp {...data}></ZmitiTipApp>}
+			{!isExist && <ZmitiShareApp {...data}></ZmitiShareApp>}
+			{!isExist && <ZmitiIndexApp {...data}></ZmitiIndexApp>}
+			{isExist && <ZmitiShareApp  {...data}></ZmitiShareApp>}
 		</div>
 	}
 
@@ -213,7 +215,6 @@ class App extends Component {
 		var appId = 'wxfacf4a639d9e3bcc'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
 
 		var durl = url || location.href.split('#')[0];
-
 
 		var code_durl = encodeURIComponent(durl);
 
@@ -299,6 +300,66 @@ class App extends Component {
 		if (r != null) return (r[2]);
 		return null;
 	}
+
+	request(openid,nickname) {
+		var s = this;
+		$.ajax({
+			url: 'http://api.zmiti.com/v2/works/update_pvnum/',
+			data: {
+				worksid: worksid
+			},
+			success(data) {
+				if (data.getret === 0) {}
+			}
+		});
+
+		var idx = Math.random() * s.zmitiMap.length | 0;
+
+		$.ajax({
+			url: 'http://api.zmiti.com/v2/weixin/save_userview/',
+			type: 'post',
+			data: {
+				worksid: worksid,
+				wxopenid: openid,
+				wxname: nickname,
+				usercity: s.zmitiMap[idx].name,
+				longitude: s.zmitiMap[idx].log,
+				latitude: s.zmitiMap[idx].lat
+			}
+		}).done((data) => {
+			if (data.getret === 0) {
+
+			} else {
+				//alert('save_userview getret : '+ data.getret +' msg : '+ data.getmsg)
+			}
+		}, () => {
+			//alert('save_userview error');
+		})
+
+
+		//获取用户积分
+		//
+		var opt = {
+			type: 'map',
+			address: s.zmitiMap[idx].name,
+			pos: [s.zmitiMap[idx].log, s.zmitiMap[idx].lat],
+			nickname: s.nickname,
+			headimgurl: s.headimgurl
+		}
+		$.ajax({
+			url: 'http://api.zmiti.com/v2/msg/send_msg/',
+			type: 'post',
+			data: {
+				type: worksid,
+				content: JSON.stringify(opt),
+				to: opt.to || ''
+			},
+			success(data) {
+
+				//console.log(data);
+			}
+		})
+	}
 	getOauthurl() {
 		var s = this;
 
@@ -321,85 +382,33 @@ class App extends Component {
 					s.nickname = dt.userinfo.nickname;
 					s.headimgurl = dt.userinfo.headimgurl;
 
-					// s.wxConfig(window.share.title.replace(/{nickname}/, s.nickname), window.share.desc.replace(/{nickname}/, s.nickname), 'http://h5.zmiti.com/public/teacherday/assets/images/300.jpg');
+					window.localStorage.setItem('nickname', s.nickname);
+
+					//s.wxConfig(window.share.title.replace(/{nickname}/, s.nickname), window.share.desc.replace(/{nickname}/, s.nickname), 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg');
+
 					s.state.nickname = s.nickname;
 					window.nickname = s.nickname;
 					s.forceUpdate();
 
-					$.ajax({
-						url: 'http://api.zmiti.com/v2/works/update_pvnum/',
-						data: {
-							worksid: worksid
-						},
-						success(data) {
-							if (data.getret === 0) {}
-						}
-					});
+					s.request(s.openid, s.nickname);
 
-					var idx = Math.random() * s.zmitiMap.length | 0;
-
-					$.ajax({
-						url: 'http://api.zmiti.com/v2/weixin/save_userview/',
-						type: 'post',
-						data: {
-							worksid: worksid,
-							wxopenid: s.openid,
-							wxname: s.nickname,
-							usercity: s.zmitiMap[idx].name,
-							longitude: s.zmitiMap[idx].log,
-							latitude: s.zmitiMap[idx].lat
-						}
-					}).done((data) => {
-						if (data.getret === 0) {
-
-						} else {
-							//alert('save_userview getret : '+ data.getret +' msg : '+ data.getmsg)
-						}
-					}, () => {
-						//alert('save_userview error');
-					})
-
-
-					//获取用户积分
-					//
-					var opt = {
-						type: 'map',
-						address: s.zmitiMap[idx].name,
-						pos: [s.zmitiMap[idx].log, s.zmitiMap[idx].lat],
-						nickname: s.nickname,
-						headimgurl: s.headimgurl
-					}
-					$.ajax({
-						url: 'http://api.zmiti.com/v2/msg/send_msg/',
-						type: 'post',
-						data: {
-							type: worksid,
-							content: JSON.stringify(opt),
-							to: opt.to || ''
-						},
-						success(data) {
-
-							//console.log(data);
-						}
-					})
 
 				} else {
 					if (s.isWeiXin()) {
-						var file = s.getQueryString('file');
-						var border = s.getQueryString('border');
-						var wish = s.getQueryString('wish');
-						var transX = s.getQueryString('transX');
-						var transY = s.getQueryString('transY');
+						var nickname = s.getQueryString('nickname');
+						var src = s.getQueryString('src');
+						var duration = s.getQueryString('duration');
+						var gk = s.getQueryString('gk');
 
 						var redirect_uri = window.location.href.split('?')[0];
 
 						var symbol = redirect_uri.indexOf('?') > -1 ? '&' : '?';
-						if (file) {
-							redirect_uri = s.changeURLPar(redirect_uri, 'file', (file));
-							redirect_uri = s.changeURLPar(redirect_uri, 'border', (border));
-							redirect_uri = s.changeURLPar(redirect_uri, 'wish', (wish));
-							redirect_uri = s.changeURLPar(redirect_uri, 'transX', (transX));
-							redirect_uri = s.changeURLPar(redirect_uri, 'transY', (transY));
+
+						if (nickname) {
+							redirect_uri = s.changeURLPar(redirect_uri, 'nickname', (nickname));
+							redirect_uri = s.changeURLPar(redirect_uri, 'src', (src));
+							redirect_uri = s.changeURLPar(redirect_uri, 'duration', (duration));
+							redirect_uri = s.changeURLPar(redirect_uri, 'gk', (gk));
 						}
 
 						//url = s.changeURLPar(url, 'nickname', 'zmiti');
@@ -433,22 +442,27 @@ class App extends Component {
 	}
 	componentDidMount() {
 		var s = this;
-		var file = s.getQueryString('file');
-		var border = s.getQueryString('border');
-		var wish = s.getQueryString('wish');
-		var transX = s.getQueryString('transX');
-		var transY = s.getQueryString('transY');
-		if (file && border && wish) {
+		var src = s.getQueryString('src');
+		var nickname = s.getQueryString('nickname');
+		var duration = s.getQueryString('duration');
+		var gk = s.getQueryString('gk');
+
+		console.log(src, nickname, duration, gk)
+		if (src && duration) {
 			this.setState({
-				file,
-				border,
-				wish,
-				transX,
-				transY
+				src,
+				nickname,
+				gk,
+				duration
 			});
+			var url = window.location.href.split('#')[0];
+			this.wxConfig(nickname + '在“中国成就”拼图游戏中成功闯到第' + gk + '关', window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
+
+		} else {
+			this.wxConfig(window.share.title, window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg');
 		}
-		//this.wxConfig(document.title, window.share.desc, 'http://h5.zmiti.com/public/teacherday/assets/images/300.jpg');
-		//this.getOauthurl();
+
+		this.getOauthurl();
 
 
 	}

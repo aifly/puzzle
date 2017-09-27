@@ -23,108 +23,59 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   left: 0;
-  top: 0; }
-  .zmiti-index-main-ui.active {
-    -webkit-transform: translate(0, 0) scale(1);
-    transform: translate(0, 0) scale(1); }
-  .zmiti-index-main-ui.left {
-    -webkit-transform: translate(-100%, 0) scale(0.8);
-    transform: translate(-100%, 0) scale(0.8); }
-  .zmiti-index-main-ui .zmiti-logo {
-    width: 3rem;
-    position: absolute;
-    right: .5rem;
-    top: 1.6rem; }
-  .zmiti-index-main-ui .zmiti-img-C {
-    position: absolute;
+  top: 0;
+  background: #f46a1c;
+  z-index: 100;
+  position: absolute; }
+  .zmiti-index-main-ui.hide {
+    display: none; }
+  .zmiti-index-main-ui .zmiti-index-bottom, .zmiti-index-main-ui .zmiti-index-top {
+    position: absolute; }
+  .zmiti-index-main-ui .zmiti-index-chengjiu {
     width: 8rem;
-    left: -1.3rem;
-    top: .5rem;
-    opacity: 0;
-    height: 10rem;
-    -webkit-animation: opacity 2s 800ms linear forwards;
-    animation: opacity 2s 800ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-img1 {
-    width: 7rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 800ms linear forwards;
-    animation: opacity 2s 800ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-img2 {
-    position: absolute;
-    bottom: -1.5rem;
-    left: 1rem;
-    width: 5rem;
-    z-index: 10;
-    opacity: 0;
-    -webkit-animation: opacity 2s 3200ms linear forwards;
-    animation: opacity 2s 3200ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-img3 {
-    position: absolute;
-    bottom: -2.2rem;
-    right: -2.8rem;
-    width: 5rem;
-    opacity: 0;
-    z-index: 12;
-    -webkit-animation: opacity 2s 4000ms linear forwards;
-    animation: opacity 2s 4000ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-img4 {
-    position: absolute;
-    top: 5rem;
-    left: 1rem;
-    width: 5rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 1600ms linear forwards;
-    animation: opacity 2s 1600ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-img5 {
-    position: absolute;
-    top: 4rem;
-    left: 4rem;
-    width: 5rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 2400ms linear forwards;
-    animation: opacity 2s 2400ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-flower {
-    width: 3.5rem;
-    position: absolute;
-    right: 0;
-    top: 3rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 3200ms linear forwards;
-    animation: opacity 2s 3200ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-text {
-    position: absolute;
-    width: 5rem;
-    bottom: 1.2rem;
-    left: 1rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 4000ms linear forwards;
-    animation: opacity 2s 4000ms linear forwards; }
-  .zmiti-index-main-ui .zmiti-begindo {
-    position: absolute;
-    width: 3rem;
-    bottom: .5rem;
-    left: 5.5rem;
-    opacity: 0;
-    -webkit-animation: opacity 2s 4800ms linear forwards;
-    animation: opacity 2s 4800ms linear forwards; }
-
-@-webkit-keyframes opacity {
-  to {
-    opacity: 1; } }
-@-webkit-keyframes rotate1 {
-  from {
-    -webkit-transform: translate3d(0, -440px, 0);
-    transform: translate3d(0, -440px, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: rotate(0) translate3d(0, 0, 0);
-    transform: rotate(0) translate3d(0, 0, 0); } }
-@media all and (max-height: 612px) and (min-width: 412px) {
-  .zmiti-text {
-    bottom: .4rem !important; }
-
-  .zmiti-begindo {
-    bottom: .1rem !important;
-    left: 6rem !important; } }
+    margin: 1.4rem  auto 0; }
+  .zmiti-index-main-ui .zmiti-index-text {
+    width: 9rem;
+    margin: .5rem  auto 0; }
+  .zmiti-index-main-ui .zmiti-index-logo {
+    width: 4rem;
+    margin: .2rem  auto 0; }
+  .zmiti-index-main-ui .zmiti-index-gamestart {
+    width: 4rem;
+    margin: .2rem  auto 0;
+    position: relative;
+    background: #ffdf1b;
+    text-align: center;
+    font-weight: bold;
+    color: #f2400f;
+    line-height: 1rem;
+    height: 1rem;
+    border-radius: 15px; }
+    .zmiti-index-main-ui .zmiti-index-gamestart.active {
+      -webkit-transform: translate3d(0, 5px, 0);
+      transform: translate3d(0, 5px, 0); }
+      .zmiti-index-main-ui .zmiti-index-gamestart.active:before, .zmiti-index-main-ui .zmiti-index-gamestart.active:after {
+        display: none; }
+    .zmiti-index-main-ui .zmiti-index-gamestart:before, .zmiti-index-main-ui .zmiti-index-gamestart:after {
+      content: '';
+      border-radius: 15px;
+      position: absolute;
+      z-index: -1;
+      width: 100%;
+      height: 80%;
+      left: 0;
+      bottom: 0; }
+    .zmiti-index-main-ui .zmiti-index-gamestart:after {
+      background: #ff8009;
+      bottom: -4px;
+      width: 98%;
+      left: 1%; }
+    .zmiti-index-main-ui .zmiti-index-gamestart:before {
+      width: 102%;
+      left: -1%;
+      background: #751c00;
+      bottom: -8px; }
+  .zmiti-index-main-ui .zmiti-index-bottom {
+    bottom: 0; }
 
 /*# sourceMappingURL=index.css.map */
