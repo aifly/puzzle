@@ -200,7 +200,7 @@ class ZmitiStage extends Component {
     this.setState({
       gk: this.state.gk + 1
     }, () => {
-      if (this.state.gk > 6) {
+      if (this.state.gk > 3) {
         this.setState({
           picLen: 3
         }, () => {
