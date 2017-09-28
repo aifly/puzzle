@@ -79,7 +79,7 @@ class ZmitiStage extends Component {
       <div className='zmiti-stage-puzzle' ref='zmiti-stage-puzzle'>
         <canvas draggable='true' ref='stage' className='zmiti-stage-canvas' width={this.state.canvasW*this.state.picLen} height={this.state.canvasH*this.state.picLen}></canvas>
         <div>
-          <span>当前关卡：{this.state.gk}</span>
+          <span>当前关卡：{this.state.gk}/{window.durations.length}</span>
         </div>
       </div>
       <div style={{height:'.5rem'}}></div>
@@ -99,6 +99,8 @@ class ZmitiStage extends Component {
                  </div>
               </div>
            </section>}
+
+      {this.state.toast && <ZmitiToastApp toast={this.state.toast}></ZmitiToastApp>}
     </div>
   }
 
@@ -182,8 +184,6 @@ class ZmitiStage extends Component {
 
       if (data.getret === 0) {
         var src = data.getimageurl;
-
-
         url = changeURLPar(url, 'nickname', encodeURI(nickname));
         url = changeURLPar(url, 'duration', this.state.allDuration);
         url = changeURLPar(url, 'src', src);
@@ -246,7 +246,7 @@ class ZmitiStage extends Component {
   }
 
 
-  showToast(msg) {
+  showToast(msg, fn) {
     this.setState({
       toast: msg
     });
@@ -255,6 +255,9 @@ class ZmitiStage extends Component {
       this.setState({
         toast: ''
       });
+
+      fn && fn()
+
     }, 2000)
   }
 
@@ -421,9 +424,10 @@ class ZmitiStage extends Component {
                 })
 
                 if (success) { //成功。进入下一关
-                  setTimeout(() => {
+                  s.showToast('恭喜你进入下一关！', function() {
                     s.nextGK();
-                  }, 1000)
+                  });
+
                 } else { //失败
                   s.gameOver();
                 }
