@@ -16,8 +16,10 @@ class ZmitiToastApp extends Component {
 	render() {
 
 		return (
-			<div className='zmiti-toast-main-ui'>
-				{this.props.toast||''}
+			<div className='zmiti-toast-main'>
+				<div className="zmiti-toast-main-ui">
+					{this.props.toast||''}
+				</div>
 			</div>
 		);
 	}
