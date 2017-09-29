@@ -183,10 +183,7 @@ class App extends Component {
 			changeURLPar: this.changeURLPar.bind(this),
 			nickname: this.state.nickname
 		}
-
 		var isExist = this.state.src && this.state.nickname && this.state.duration;
-
-		console.log(isExist)
 
 		return <div className='zmiti-main-ui'>
 			{!isExist && <ZmitiStage {...data}></ZmitiStage>}
@@ -301,7 +298,7 @@ class App extends Component {
 		return null;
 	}
 
-	request(openid,nickname) {
+	request(openid, nickname) {
 		var s = this;
 		$.ajax({
 			url: 'http://api.zmiti.com/v2/works/update_pvnum/',
@@ -447,7 +444,6 @@ class App extends Component {
 		var duration = s.getQueryString('duration');
 		var gk = s.getQueryString('gk');
 
-		console.log(src, nickname, duration, gk)
 		if (src && duration) {
 			this.setState({
 				src,
@@ -456,7 +452,10 @@ class App extends Component {
 				duration
 			});
 			var url = window.location.href.split('#')[0];
-			this.wxConfig(nickname + '在“中国成就”拼图游戏中成功闯到第' + gk + '关', window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
+			var title = window.gkShare.title.replace(/{nickname}/, nickname);
+			title = title.replace(/{gk}/, gk || 0);
+			title = title.replace(/{duration}/, duration || '');
+			this.wxConfig(title, window.gkShare.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
 
 		} else {
 			this.wxConfig(window.share.title, window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg');

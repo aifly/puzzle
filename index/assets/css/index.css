@@ -30,7 +30,8 @@
   .zmiti-index-main-ui.hide {
     display: none; }
   .zmiti-index-main-ui .zmiti-index-bottom, .zmiti-index-main-ui .zmiti-index-top {
-    position: absolute; }
+    position: absolute;
+    z-index: -1; }
   .zmiti-index-main-ui .zmiti-index-chengjiu {
     width: 8rem;
     margin: 1.4rem  auto 0; }

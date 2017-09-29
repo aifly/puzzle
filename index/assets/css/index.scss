@@ -16,6 +16,7 @@
 
   .zmiti-index-bottom, .zmiti-index-top {
     @include pos(a);
+    z-index: -1;
   }
 
   .zmiti-index-chengjiu {

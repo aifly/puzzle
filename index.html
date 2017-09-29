@@ -38,28 +38,31 @@
 
 			window.durations = [30,123,110,130,120,110];
 
-			window.imgList = [
-				{
-					title:'新型万吨级驱逐舰1',
-					src:'./assets/images/1.jpg'
-				},
-				{
-					title:'新型万吨级驱逐舰2',
-					src:'./assets/images/300.jpg'
-				},{
-					title:'新型万吨级驱逐舰3',
-					src:'./assets/images/300.jpg'
-				},{
-					title:'新型万吨级驱逐舰4',
-					src:'./assets/images/300.jpg'
-				},{
-					title:'新型万吨级驱逐舰5',
-					src:'./assets/images/300.jpg'
-				},{
-					title:'新型万吨级驱逐舰6',
-					src:'./assets/images/300.jpg'
-				}
+			var imgArr = [
+				'“蛟龙”号潜艇',
+				'港珠澳大桥',
+				'歼20',
+				'辽宁号 母舰',
+				'上海光源',
+				'中国大客机Ｃ９１９',
+				'“复兴号”高铁',
+				'贵港市青云大桥',
+				'哈齐高铁',
+				'京欣高速公路',
+				'上海洋山深水港四期工程',
+				'天舟一号',
+				'长征五号遥二火箭',
 			];
+			window.imgList = [
+				
+			];
+
+			imgArr.forEach(function(img,i){
+				window.imgList.push({
+					title:img,
+					src:'./assets/images/'+(i+1)+'.jpg'
+				})
+			})
 
 		
 
@@ -68,16 +71,21 @@
 				desc:'中国成就 骄傲国人震撼世界'
 			}
 
+
+			window.gkShare = {
+				title:'{nickname}在“中国成就”拼图游戏中成功闯到第{gk}关',
+				desc:'中国成就 骄傲国人震撼世界'
+			}
+
 		</script>
 
 		<!--
-			
 		<script src='http://localhost:4005/index.js' onError='onError()'></script>
 		
 		-->
 		
 		<script src='./assets/js/createjs.js' ></script>
-
+			
 		<script src='./assets/js/vendor.js'></script>
 	
 		<script src='./assets/js/index.js'></script>

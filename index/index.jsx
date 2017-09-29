@@ -41,11 +41,11 @@ class ZmitiIndexApp extends Component {
         <img src='./assets/images/logo.png'/>
        </div>
 
+        <img src='./assets/images/bottom.png' className='zmiti-index-bottom'/>
        <div onClick={this.beginGame.bind(this)} className={'zmiti-index-gamestart '+this.state.startBtnClass } onTouchStart={()=>{this.setState({startBtnClass:'active'})}}  onTouchEnd={()=>{this.setState({startBtnClass:''})}}>
           开始游戏
        </div>
 
-      <img src='./assets/images/bottom.png' className='zmiti-index-bottom'/>
     </div>
 
   }

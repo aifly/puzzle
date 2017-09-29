@@ -39,7 +39,7 @@
     border-radius: 30%; }
     .zmiti-share-main-ui .zmiti-share-bg .zmiti-share-info {
       width: 7rem;
-      height: 8rem;
+      height: 9rem;
       margin: -1rem auto;
       background: #ffdf1b;
       border-radius: 10px;
@@ -60,8 +60,9 @@
       .zmiti-share-main-ui .zmiti-share-bg .zmiti-share-info > div {
         text-align: center;
         font-weight: bold;
-        margin: 8px 0;
-        font-size: .5rem; }
+        margin: 8px auto;
+        font-size: .5rem;
+        width: 6rem; }
       .zmiti-share-main-ui .zmiti-share-bg .zmiti-share-info .zmiti-puzzle-img {
         width: 4rem;
         height: 4rem;
@@ -75,5 +76,56 @@
       margin: 1rem auto !important; }
       .zmiti-share-main-ui .zmiti-share-bg .zmiti-medo img {
         width: 5rem; }
+    .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu {
+      width: 7rem;
+      margin: 1rem auto !important;
+      display: -webkit-box;
+      -webkit-box-align: center;
+      -webkit-box-pack: center;
+      -webkit-box-orient: horizontal; }
+      .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div {
+        text-align: center;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        border-radius: 20px;
+        color: #fff;
+        font-weight: bold;
+        background: #f53700; }
+        .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(2) {
+          opacity: 0; }
+        .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1), .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3) {
+          -webkit-box-flex: 1;
+          position: relative; }
+          .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1).active, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3).active {
+            -webkit-transform: translate3d(0, 5px, 0);
+            transform: translate3d(0, 5px, 0); }
+            .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1).active:before, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1).active:after, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3).active:before, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3).active:after {
+              display: none; }
+          .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1):before, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1):after, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3):before, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3):after {
+            content: '';
+            border-radius: 15px;
+            position: absolute;
+            z-index: -1;
+            width: 100%;
+            height: 80%;
+            left: 0;
+            bottom: 0; }
+          .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1):after, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3):after {
+            background: #e13200;
+            bottom: -3px;
+            width: 98%;
+            left: 1%; }
+          .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(1):before, .zmiti-share-main-ui .zmiti-share-bg .zmiti-continu > div:nth-of-type(3):before {
+            width: 102%;
+            left: -1%;
+            background: #751c00;
+            bottom: -6px; }
+  .zmiti-share-main-ui .zmiti-mask {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    position: absolute; }
 
 /*# sourceMappingURL=index.css.map */

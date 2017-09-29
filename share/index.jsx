@@ -19,9 +19,7 @@ class ZmitiShareApp extends Component {
 
     this.state = {
       className: 'hide',
-      wish: '',
-      transX: 0,
-      transY: 0
+
     }
     this.viewW = document.documentElement.clientWidth;
     this.viewH = document.documentElement.clientHeight;
@@ -38,27 +36,58 @@ class ZmitiShareApp extends Component {
 
     var s = this;
 
+    var maskStyle = {
+      background: 'url(./assets/images/arron1.png) no-repeat center  top',
+      backgroundSize: 'cover'
+    }
+
+
+    var src = s.getQueryString('src')
+
 
     return <div className={'zmiti-share-main-ui '+ this.state.className}>
         <div className='zmiti-share-bg'>
           <div className='zmiti-share-info'>
-            <div>{this.state.nickname}在“中国成就”拼图游戏中</div>
+            <div>{decodeURI(this.state.nickname|| '我')}在“中国成就”拼图游戏中</div>
             <div>用时:{this.state.duration||0}s</div>
             <div>成功闯到第{this.state.gk}关!</div>
             <div className='zmiti-puzzle-img'>
               <img src={this.state.src}/>
             </div>
 
-            <div className='zmiti-medo'>
-              <a href={window.href}><img src='./assets/images/medo.png'/></a>
-            </div>
+            {(this.state.gk >= window.durations.length|| src) && <div className='zmiti-medo'>
+                          <a href={window.href}><img src='./assets/images/medo.png'/></a>
+                        </div>}
+            {(this.state.gk||0 ) < window.durations.length && !src && <div className='zmiti-continu'>
+                <div onClick={this.showMask.bind(this)} className={this.state.shareClass||''} onTouchStart={()=>{this.setState({shareClass:'active'})}}  onTouchEnd={()=>{this.setState({shareClass:''})}}>分享</div>
+                <div style={{width:20}}></div>
+                <div className={this.state.nextClass||''} onClick={this.nextGk.bind(this)} onTouchStart={()=>{this.setState({nextClass:'active'})}}  onTouchEnd={()=>{this.setState({nextClass:''})}}>下一关</div>
+            </div>}
           </div>
         </div>
-    </div>
 
+        {this.state.showMask && <div onTouchStart={()=>{this.setState({showMask:false})}} className='zmiti-mask' style={maskStyle}></div>}
+    </div>
+  }
+  showMask() {
+    this.setState({
+      showMask: true
+    })
   }
 
+  nextGk() {
+    var {
+      obserable
+    } = this.props;
 
+    this.setState({
+      className: 'hide'
+    })
+
+    obserable.trigger({
+      type: 'nextGK'
+    })
+  }
 
   showToast(msg) {
     this.setState({
@@ -108,11 +137,16 @@ class ZmitiShareApp extends Component {
     }
 
     obserable.on('showShare', e => {
-      this.setState({
+      var state = {
         className: '',
-        allduration: e.durantion,
-        gk: e.gk
-      });
+        duration: e.duration,
+        gk: e.gk,
+        nickname: e.nickname
+      };
+      if (e.src) {
+        state.src = e.src;
+      }
+      this.setState(state);
     });
   }
 

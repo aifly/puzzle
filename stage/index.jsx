@@ -94,8 +94,8 @@ class ZmitiStage extends Component {
                      <img onClick={this.doAgin.bind(this)} src='./assets/images/agin.png'/>
                    </div>
                  </div>
-                 <div className='zmiti-stage-close'>
-                   <img onClick={this.closeResult.bind(this)} src='./assets/images/close.png'/>
+                 <div hidden className='zmiti-stage-close'>
+                   
                  </div>
               </div>
            </section>}
@@ -144,7 +144,6 @@ class ZmitiStage extends Component {
 
   nextGK() { //下一关.
 
-
     this.setState({
       allDuration: this.state.allDuration + (window.durations[this.state.gk - 1] - this.state.duration)
     })
@@ -156,7 +155,7 @@ class ZmitiStage extends Component {
       changeURLPar
     } = this.props;
 
-    if (!window.durations[this.state.gk]) {
+    /*if (!window.durations[this.state.gk]) {
       obserable.trigger({
           type: 'showShare',
           data: {
@@ -167,7 +166,7 @@ class ZmitiStage extends Component {
         //进入结果页
 
       return;
-    }
+    }*/
     this.dragCount = 0;
 
     var url = window.location.href;
@@ -190,7 +189,10 @@ class ZmitiStage extends Component {
         url = changeURLPar(url, 'gk', this.state.gk);
 
         url = url.split('#')[0];
-        wxConfig(nickname + '在“中国成就”拼图游戏中成功闯到第' + this.state.gk + '关', window.share.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
+        var title = window.gkShare.title.replace(/{nickname}/, nickname);
+        title = title.replace(/{gk}/, this.state.gk);
+        title = title.replace(/{duration}/, this.state.allDuration);
+        wxConfig(title, window.gkShare.desc, 'http://h5.zmiti.com/public/' + window.h5name + '/assets/images/300.jpg', url);
 
       }
     })
@@ -263,8 +265,11 @@ class ZmitiStage extends Component {
 
 
   drawImage() {
-    var index = window.imgList.length * Math.random() | 0;
+    var index = (window.imgList.length * Math.random()) | 0;
+
     var obj = this.state.imgList.splice(index, 1)[0];
+
+    this.objSrc = obj.src;
     this.loadImg(obj.src);
 
     this.setState({
@@ -299,6 +304,10 @@ class ZmitiStage extends Component {
 
       }, 1000)
     });
+
+    obserable.on('nextGK', e => {
+      this.nextGK();
+    })
   }
 
   setDrag() {
@@ -306,6 +315,13 @@ class ZmitiStage extends Component {
     var canvas = this.refs['stage'],
 
       s = this;
+
+    var {
+      obserable,
+      nickname
+    } = this.props;
+
+
 
     this.dragCount = this.dragCount || 0;
 
@@ -424,9 +440,22 @@ class ZmitiStage extends Component {
                 })
 
                 if (success) { //成功。进入下一关
-                  s.showToast('恭喜你进入下一关！', function() {
+
+                  setTimeout(() => {
+                    obserable.trigger({
+                      type: 'showShare',
+                      data: {
+                        gk: s.state.gk,
+                        duration: s.state.allDuration + (window.durations[s.state.gk - 1] - s.state.duration),
+                        src: s.objSrc,
+                        nickname: window.nickname
+                      }
+                    })
+                  }, 100)
+
+                  /*s.showToast('恭喜你进入下一关！', function() {
                     s.nextGK();
-                  });
+                  });*/
 
                 } else { //失败
                   s.gameOver();
@@ -462,7 +491,6 @@ class ZmitiStage extends Component {
       var i = startX / oneWidth | 0,
         j = startY / oneHeight | 0;
 
-      console.log(i, j)
 
       var bitmap = s.container.getChildByName('bitmap_' + j + '_' + i);
       if (!bitmap) {
